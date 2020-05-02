@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Cocktail } from '../cocktail';
+import { Cocktail } from '../shared/cocktail.model';
 
 @Component({
-  selector: 'app-cocktails-list',
-  templateUrl: './cocktails-list.component.html',
-  styleUrls: ['./cocktails-list.component.css']
+  selector: 'app-cocktail-container',
+  templateUrl: './cocktail-container.component.html',
+  styleUrls: ['./cocktail-container.component.css']
 })
-export class CocktailsListComponent implements OnInit {
+export class CocktailContainerComponent implements OnInit {
 
   public cocktails: Cocktail[] = [
     new Cocktail('Mojito', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Mojito_003.jpg/220px-Mojito_003.jpg',
@@ -19,9 +19,18 @@ export class CocktailsListComponent implements OnInit {
     'Un aigre est une famille traditionnelle de boissons mélangées. Des exemples courants de sours sont la margarita et le side-car. Les sours appartiennent à l\'une des anciennes familles de cocktails originaux et sont décrits par Jerry Thomas dans son livre de 1862, How to Mix Drinks.')
   ];
 
+  public cocktail: Cocktail;
+
+
   constructor() { }
 
+
   ngOnInit(): void {
+    this.cocktail = this.cocktails[0];
+  }
+
+  updateCocktail(index: number): void {
+    this.cocktail = this.cocktails[index];
   }
 
 }
