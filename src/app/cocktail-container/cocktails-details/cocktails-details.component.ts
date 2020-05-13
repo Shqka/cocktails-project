@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Cocktail } from '../../shared/models/cocktail.model';
+import { CocktailService } from '../../shared/services/cocktail.service';
 
 @Component({
   selector: 'app-cocktails-details',
@@ -8,11 +9,14 @@ import { Cocktail } from '../../shared/models/cocktail.model';
 })
 export class CocktailsDetailsComponent implements OnInit {
 
-  @Input() cocktail: Cocktail;
+  public cocktail: Cocktail;
 
-  constructor() { }
+  constructor(private cocktailService: CocktailService) { }
 
   ngOnInit(): void {
+    this.cocktailService.cocktail.subscribe( (cocktail: Cocktail) => {
+      this.cocktail = cocktail;
+    })
   }
 
 }
