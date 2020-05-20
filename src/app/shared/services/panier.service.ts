@@ -16,7 +16,7 @@ export class PanierService {
 
     const currentValue = this.panier.value;
 
-    if (currentValue && currentValue.length) {
+    if (currentValue) {
       this.panier.next(currentValue.concat(ingredients));
     } else {
       this.panier.next(ingredients);
