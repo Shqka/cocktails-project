@@ -28,7 +28,7 @@
 
 <div class="row">
 
-  <button class="btn btn-success">Editer le cocktail</button>
+  <button class="btn btn-success" [routerLink]="getUrl()">Editer le cocktail</button>
 
   <button (click)="addPanier(cocktail.ingredients)" class="btn btn-light ml-auto">Ajouter au panier</button>
 </div>

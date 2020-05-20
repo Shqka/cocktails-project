@@ -13,23 +13,29 @@ import { ActivatedRoute, Params } from '@angular/router';
 export class CocktailsDetailsComponent implements OnInit {
 
   public cocktail: Cocktail;
+  public index: number;
 
   constructor(private activatedRoute: ActivatedRoute, private cocktailService: CocktailService, private panierService: PanierService) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: Params) => {
       if ( params.index ) {
+        this.index = params.index;
         this.cocktail = this.cocktailService.getCocktail(params.index);
       } else {
+        this.index = 0;
         this.cocktail = this.cocktailService.getCocktail(0);
       }
-      
     })
   }
 
+
   addPanier(ingredients: Ingredient[]): void {
     this.panierService.addIngredients(ingredients);
-    
+  }
+
+  getUrl() {
+    return '/cocktails/' + this.index + '/edit';
   }
 
 }
