@@ -43,5 +43,19 @@ export class CocktailService {
     return this.cocktails.value[index];
   }
 
+  addCocktail (cocktail: Cocktail) {
+
+    const newCocktail = this.cocktails.value;
+
+    newCocktail.push({
+      name: cocktail.name,
+      img: cocktail.img,
+      desc: cocktail.desc,
+      ingredients: cocktail.ingredients
+    })
+  
+    this.cocktails.next(newCocktail);
+  }
+
   constructor() { }
 }

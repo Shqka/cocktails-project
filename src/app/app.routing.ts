@@ -11,9 +11,9 @@ const APP_ROUTE: Route[] = [
     { path: 'panier', component: PanierComponent },
     { path: 'cocktails', component: CocktailContainerComponent, children: [
         { path: '', component: CocktailsDetailsComponent },
+        { path: 'new', component: CocktailEditComponent },
         { path: ':index', component: CocktailsDetailsComponent },
-        { path: ':index/edit', component: CocktailEditComponent },
-        { path: 'new', component: CocktailEditComponent }
+        { path: ':index/edit', component: CocktailEditComponent }
     ]}
 ]
 
