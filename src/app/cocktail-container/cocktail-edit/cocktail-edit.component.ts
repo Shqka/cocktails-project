@@ -13,15 +13,18 @@ export class CocktailEditComponent implements OnInit {
 
   public cocktailForm: FormGroup;
   public cocktail: Cocktail;
+  private edit: boolean;
 
   constructor(private activatedRoute: ActivatedRoute ,private fb: FormBuilder, private cocktailService: CocktailService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(( params: Params) => {
       if (params.index) {
+        this.edit = true;
         this.cocktail = this.cocktailService.getCocktail(params.index);
         this.createForm(this.cocktail);
       } else {
+        this.edit = false;
         this.createForm();
       }
     })
@@ -36,8 +39,12 @@ export class CocktailEditComponent implements OnInit {
     })
 }
 
-  createCocktail() {
-    this.cocktailService.addCocktail(this.cocktailForm.value);
+  saveCocktail() {
+    if (this.edit) {
+      this.cocktailService.editCocktail(this.cocktailForm.value);
+    } else {
+      this.cocktailService.addCocktail(this.cocktailForm.value);
+    }
   }
 
   get ingredients(): FormArray {

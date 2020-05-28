@@ -39,23 +39,39 @@ export class CocktailService {
    )
   ]);
 
+
   getCocktail (index: number): Cocktail {
     return this.cocktails.value[index];
   }
 
+
   addCocktail (cocktail: Cocktail) {
 
-    const newCocktail = this.cocktails.value;
+    const cocktails = this.cocktails.value;
 
-    newCocktail.push({
+    cocktails.push({
       name: cocktail.name,
       img: cocktail.img,
       desc: cocktail.desc,
       ingredients: cocktail.ingredients
-    })
-  
-    this.cocktails.next(newCocktail);
+    });
+
+    this.cocktails.next(cocktails);
+  }
+
+
+  editCocktail (editCocktail: Cocktail): void {
+    
+    const cocktails = this.cocktails.value;
+    let index = cocktails.map( c => c.name ).indexOf(editCocktail.name);
+    /* 
+    on peut récupérer également l'index avec findIndex comme ceci :
+    let index = cocktails.findIndex( c => c.name === editCocktail.name); 
+     */
+    cocktails[index] = editCocktail;
+    this.cocktails.next(cocktails);
   }
 
   constructor() { }
+
 }
