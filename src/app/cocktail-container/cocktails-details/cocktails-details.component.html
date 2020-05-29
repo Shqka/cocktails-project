@@ -1,34 +1,39 @@
-<div class="row">
+<div *ngIf="cocktail">
 
-  <div class="col-5">
-    <img class="img-fluid" style="max-height: 150px;" [src]="cocktail.img" alt="{{ cocktail.name }}">
+  <div class="row">
+
+    <div class="col-5">
+      <img class="img-fluid" style="max-height: 150px;" [src]="cocktail.img" alt="{{ cocktail.name }}">
+    </div>
+    <h3 class="col-7">{{ cocktail.name }}</h3>
+
   </div>
-  <h3 class="col-7">{{ cocktail.name }}</h3>
 
-</div>
+  <hr>
 
-<hr>
+  <div class="row">
+    <p class="col-12">{{ cocktail.desc }}</p>
+  </div>
 
-<div class="row">
-  <p class="col-12">{{ cocktail.desc }}</p>
-</div>
+  <hr>
 
-<hr>
+  <div class="row">
+    <ul class="list-group col-12">
+      <li class="list-group-item"
+        *ngFor="let ingredient of cocktail.ingredients">
+        {{ ingredient.name }}
+        <span class="badge badge-pill badge-primary float-right"> {{ ingredient.quantity }}</span>
+      </li>
+    </ul>
+  </div>
 
-<div class="row">
-  <ul class="list-group col-12">
-    <li class="list-group-item list-group-item-action d-flex align-items-center" *ngFor="let ingredient of cocktail.ingredients"> 
-      {{ ingredient.name }}
-      <span class="badge badge-pill badge-warning ml-auto"> {{ ingredient.quantity }}</span>
-    </li>
-  </ul>
-</div>
+  <hr>
 
-<hr>
+  <div class="row">
 
-<div class="row">
+    <button class="btn btn-success" [routerLink]="getUrl()">Editer le cocktail</button>
 
-  <button class="btn btn-success" [routerLink]="getUrl()">Editer le cocktail</button>
+    <button (click)="addPanier(cocktail.ingredients)" class="btn btn-light ml-auto">Ajouter au panier</button>
+  </div>
 
-  <button (click)="addPanier(cocktail.ingredients)" class="btn btn-light ml-auto">Ajouter au panier</button>
 </div>

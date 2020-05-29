@@ -1,51 +1,37 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Cocktail } from '../models/cocktail.model';
 import { Ingredient } from '../models/ingredient.model';
+import { HttpClient } from '@angular/common/http';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CocktailService {
 
-  public cocktails: BehaviorSubject<Cocktail[]> = new BehaviorSubject([
-    new Cocktail('Mojito',
-     'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Mojito_003.jpg/220px-Mojito_003.jpg',
-    'Le mojito est un cocktail traditionnel de la cuisine cubaine et de la culture de Cuba, à base de rhum, de soda, de citron vert, et de feuilles de menthe fraîche. Inspiré du mint julep, et variante des Ti-punch des Antilles, Daïquiri, et Cuba libre, il est né à Cuba dans les Caraïbes dans les années 1910.',
-    [
-      new Ingredient('eau gazeuse', 1),
-      new Ingredient('citron vert', 1),
-      new Ingredient('feuilles de menthe', 6),
-      new Ingredient('cl de rhum blanc', 4)
-    ]
-    ),
-   new Cocktail('Margarita',
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Blended_Margarita.jpg/170px-Blended_Margarita.jpg',
-   'La Margarita est un cocktail à base de tequila, inventé par des Américains au Mexique. C\'est un before lunch qui serait une version du cocktail daisy dans lequel on remplaça le brandy par de la téquila1 durant la prohibition, période où les Américains ouvrirent des bars au Mexique et au Canada dans les zones frontalières.',
-   [
-    new Ingredient('perrier', 1),
-    new Ingredient('citron vert', 2),
-    new Ingredient('cl de tequila', 5)
-  ]
-   ),
-   new Cocktail('Sour',
-   'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Whiskey_sour.jpg/220px-Whiskey_sour.jpg',
-   'Un aigre est une famille traditionnelle de boissons mélangées. Des exemples courants de sours sont la margarita et le side-car. Les sours appartiennent à l\'une des anciennes familles de cocktails originaux et sont décrits par Jerry Thomas dans son livre de 1862, How to Mix Drinks.',
-   [
-    new Ingredient('whisky', 1),
-    new Ingredient('citron jaune', 1),
-    new Ingredient('sirop de sucre', 3),
-  ]
-   )
-  ]);
+  public cocktails: BehaviorSubject<Cocktail[]> = new BehaviorSubject(null);
 
+  constructor(private http: HttpClient) { 
+    this.initCocktails();
+  }
 
-  getCocktail (index: number): Cocktail {
-    return this.cocktails.value[index];
+  initCocktails(): void {
+    this.http.get<Cocktail[]>('https://cocktails-project.firebaseio.com/cocktails.json').subscribe( (cocktails: Cocktail[]) => {
+      this.cocktails.next(cocktails);
+    })
   }
 
 
-  addCocktail (cocktail: Cocktail) {
+  getCocktail (index: number): Observable<Cocktail> {
+    return this.cocktails.pipe(
+      filter( (cocktails: Cocktail[]) => cocktails != null),
+      map( (cocktails: Cocktail[]) => cocktails[index])
+    );
+  }
+
+
+  addCocktail (cocktail: Cocktail){
 
     const cocktails = this.cocktails.value;
 
@@ -55,7 +41,7 @@ export class CocktailService {
       desc: cocktail.desc,
       ingredients: cocktail.ingredients
     });
-
+    this.saveCocktail();
     this.cocktails.next(cocktails);
   }
 
@@ -65,13 +51,17 @@ export class CocktailService {
     const cocktails = this.cocktails.value;
     let index = cocktails.map( c => c.name ).indexOf(editCocktail.name);
     /* 
-    on peut récupérer également l'index avec findIndex comme ceci :
+    on peut également récupérer l'index avec findIndex comme ceci :
     let index = cocktails.findIndex( c => c.name === editCocktail.name); 
      */
     cocktails[index] = editCocktail;
     this.cocktails.next(cocktails);
+    this.saveCocktail();
+    
   }
 
-  constructor() { }
+  saveCocktail(): void {
+    this.http.put('https://cocktails-project.firebaseio.com/cocktails.json', this.cocktails.value).subscribe();
+  }
 
 }

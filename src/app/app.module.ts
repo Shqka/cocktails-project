@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { CocktailsListComponent } from './cocktail-container/cocktails-list/cocktails-list.component';
@@ -32,7 +32,8 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
     BrowserModule,
     AppRouting,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [PanierService],
   bootstrap: [AppComponent]
