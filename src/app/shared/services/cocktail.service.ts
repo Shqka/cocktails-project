@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Cocktail } from '../models/cocktail.model';
-import { Ingredient } from '../models/ingredient.model';
 import { HttpClient } from '@angular/common/http';
 import { filter, map } from 'rxjs/operators';
 
