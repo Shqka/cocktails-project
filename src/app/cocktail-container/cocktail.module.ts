@@ -7,6 +7,7 @@ import { FilterPipe } from '../shared/pipes/filter.pipe';
 import { CocktailContainerComponent } from './cocktail-container.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { cocktailRounting } from './cocktail.routing';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    cocktailRounting
   ],
   providers:[],
   exports:[]
